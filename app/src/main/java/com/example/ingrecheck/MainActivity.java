@@ -29,10 +29,34 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
     private TextView mTextViewResult;
+    private TextView mSugarResult;
     private RequestQueue mQueue;
     public String INGREDIENTS;
     public String PRODUCT_ID;
     private OnProductIdChangedListener listener;
+    private static final String[] sugar = {
+            "zucker",
+            "monosaccharide",
+            "glukose",
+            "fruktose",
+            "galaktose",
+            "disaccharide",
+            "maltose",
+            "laktose",
+            "saccharose",
+            "honig",
+            "malzextrakt",
+            "süßstoff",
+            "sirup",
+            "aspartam",
+            "saccharin",
+            "stevia",
+            "xylitol",
+            "erythrit",
+            "maltitol",
+            "isomalt",
+            "sorbit"
+    };
 
 
     @Override
@@ -40,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mTextViewResult = findViewById(R.id.text_view_result);
+        mSugarResult = findViewById(R.id.sugar);
         Button button_scan = findViewById(R.id.button_scan);
         mQueue = Volley.newRequestQueue(this);
 
@@ -63,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
         options.setOrientationLocked(true);
         options.setCaptureActivity(CaptureAct.class);
         barLaucher.launch(options);
+        mTextViewResult.setText("");
+        mSugarResult.setText("");
     }
 
     ActivityResultLauncher<ScanOptions> barLaucher = registerForActivityResult(new ScanContract(), result->
@@ -92,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
                             //Log.d("debug-msg", ingredients_tag);
                             INGREDIENTS += product;
                             mTextViewResult.append(product + "\n\n");
+                            mSugarResult.append(checkIngredients(product));
                         } catch (JSONException e) {
                             Log.d("debug-msg", "No Response");
                             e.printStackTrace();
@@ -118,5 +146,15 @@ public class MainActivity extends AppCompatActivity {
         if (listener != null) {
             listener.onProductIdChanged();
         }
+    }
+    public static String checkIngredients(String ingredients) {
+        ingredients = ingredients.toLowerCase().replaceAll("[^a-zA-Z]+", "");
+        StringBuilder result = new StringBuilder();
+        for (String s : sugar) {
+            if (ingredients.contains(s)) {
+                result.append(s).append(" ");
+            }
+        }
+        return result.toString().trim();
     }
 }
