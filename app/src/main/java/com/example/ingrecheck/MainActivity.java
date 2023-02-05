@@ -27,11 +27,40 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     private TextView mTextViewResult;
     private RequestQueue mQueue;
     public String INGREDIENTS;
     public String PRODUCT_ID;
+    private static String[] sugar = {
+            "zucker",
+            "monosaccharide",
+            "glukose",
+            "fruktose",
+            "galaktose",
+            "disaccharide",
+            "maltose",
+            "laktose",
+            "saccharose",
+            "honig",
+            "malzextrakt",
+            "süßstoff",
+            "süssstoff",
+            "süsstoff",
+            "sirup",
+            "aspartam",
+            "saccharin",
+            "stevia",
+            "xylitol",
+            "erythrit",
+            "maltitol",
+            "isomalt",
+            "sorbit"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                             String product = jsonObject.getString("ingredients_text");
                             //Log.d("debug-msg", ingredients_tag);
                             INGREDIENTS += product;
-                            mTextViewResult.append(product + "\n\n");
+                            mTextViewResult.append(checkIngredients(INGREDIENTS));
                         } catch (JSONException e) {
                             Log.d("debug-msg", "No Response");
                             e.printStackTrace();
@@ -103,5 +132,29 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mQueue.add(request);
+    }
+
+    // Administrate Array
+/*
+    public static void addSugar(String newSugar) {
+        List<String> sugarList = new ArrayList<>(Arrays.asList(sugar));
+        sugarList.add(newSugar);
+        sugar = sugarList.toArray(new String[0]);
+    }
+
+    public static void removeSugar(String oldSugar) {
+        List<String> sugarList = new ArrayList<>(Arrays.asList(sugar));
+        sugarList.remove(oldSugar);
+        sugar = sugarList.toArray(new String[0]);
+    }*/
+    public static String checkIngredients(String ingredients) {
+        ingredients = ingredients.toLowerCase().replaceAll("[^a-zA-Z]+", "");
+        StringBuilder result = new StringBuilder();
+        for (String s : sugar) {
+            if (ingredients.contains(s)) {
+                result.append(s).append(" ");
+            }
+        }
+        return result.toString().trim();
     }
 }
