@@ -19,15 +19,9 @@
         android:id="@+id/button_scan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Scan" />
-
-    <Button
-        android:id="@+id/button_parse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="29dp"
-        android:text="parse" />
+        android:text="Scan" />
 
   </RelativeLayout>

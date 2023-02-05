@@ -27,62 +27,33 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity {
     private TextView mTextViewResult;
     private RequestQueue mQueue;
     public String INGREDIENTS;
     public String PRODUCT_ID;
-    private static String[] sugar = {
-            "zucker",
-            "monosaccharide",
-            "glukose",
-            "fruktose",
-            "galaktose",
-            "disaccharide",
-            "maltose",
-            "laktose",
-            "saccharose",
-            "honig",
-            "malzextrakt",
-            "süßstoff",
-            "süssstoff",
-            "süsstoff",
-            "sirup",
-            "aspartam",
-            "saccharin",
-            "stevia",
-            "xylitol",
-            "erythrit",
-            "maltitol",
-            "isomalt",
-            "sorbit"
-    };
+    private OnProductIdChangedListener listener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mTextViewResult = findViewById(R.id.text_view_result);
-        Button buttonParse = findViewById(R.id.button_parse);
         Button button_scan = findViewById(R.id.button_scan);
+        mQueue = Volley.newRequestQueue(this);
+
         button_scan.setOnClickListener(v->
         {
             scanCode();
         });
-
-
-        mQueue = Volley.newRequestQueue(this);
-
-        buttonParse.setOnClickListener(new View.OnClickListener() {
+        setOnProductIdChangedListener(new OnProductIdChangedListener() {
             @Override
-            public void onClick(View v) {
+            public void onProductIdChanged() {
                 jsonParse();
             }
         });
+
     }
     private void scanCode()
     {
@@ -99,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
         if(result.getContents() !=null)
         {
             PRODUCT_ID = result.getContents();
+            if (listener != null) {
+                listener.onProductIdChanged();
+            }
         }
     });
 
@@ -106,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
     private void jsonParse() {
 
         String url = "https://world.openfoodfacts.org/api/v0/product/" + PRODUCT_ID +".json";
-        Log.d("debug-msg", "Started Parsing");
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -118,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                             String product = jsonObject.getString("ingredients_text");
                             //Log.d("debug-msg", ingredients_tag);
                             INGREDIENTS += product;
-                            mTextViewResult.append(checkIngredients(INGREDIENTS));
+                            mTextViewResult.append(product + "\n\n");
                         } catch (JSONException e) {
                             Log.d("debug-msg", "No Response");
                             e.printStackTrace();
@@ -134,27 +107,16 @@ public class MainActivity extends AppCompatActivity {
         mQueue.add(request);
     }
 
-    // Administrate Array
-/*
-    public static void addSugar(String newSugar) {
-        List<String> sugarList = new ArrayList<>(Arrays.asList(sugar));
-        sugarList.add(newSugar);
-        sugar = sugarList.toArray(new String[0]);
+    public interface OnProductIdChangedListener {
+        void onProductIdChanged();
     }
-
-    public static void removeSugar(String oldSugar) {
-        List<String> sugarList = new ArrayList<>(Arrays.asList(sugar));
-        sugarList.remove(oldSugar);
-        sugar = sugarList.toArray(new String[0]);
-    }*/
-    public static String checkIngredients(String ingredients) {
-        ingredients = ingredients.toLowerCase().replaceAll("[^a-zA-Z]+", "");
-        StringBuilder result = new StringBuilder();
-        for (String s : sugar) {
-            if (ingredients.contains(s)) {
-                result.append(s).append(" ");
-            }
+    public void setOnProductIdChangedListener(OnProductIdChangedListener listener) {
+        this.listener = listener;
+    }
+    public void setProductId(String productId) {
+        this.PRODUCT_ID = productId;
+        if (listener != null) {
+            listener.onProductIdChanged();
         }
-        return result.toString().trim();
     }
 }
