@@ -2,12 +2,22 @@
 
 IngreCheck is an Android application designed to help users make informed food choices. It allows users to scan the EAN codes of grocery items and view their ingredients. The app identifies and highlights blacklisted ingredients, such as sugar, aiding users in their decision-making process.
 
+## Preview:
+<p float="left">
+  <img src="https://github.com/valteu/IngreCheck/blob/main/images/welcome_screen.jpg" width="200" />
+  <img src="https://github.com/valteu/IngreCheck/blob/main/images/product_screen.jpg" width="200" /> 
+</p>
+
+
 ## Features
 
 - **Scan EAN Codes**: Use the built-in QR scanner to scan the EAN codes of grocery items.
 - **View Ingredients**: Get a detailed list of all the ingredients of the scanned product based on OpenFoodFacts data.
 - **Blacklist Ingredients**: The app identifies and highlights blacklisted ingredients, such as sugar. This feature aids users in making informed food choices.
 - **Custom Blacklist (Upcoming)**: I am currently working on a feature that will allow users to create their own blacklist of ingredients.
+
+## Installation
+- simply download the latest release apk on your android device and you are ready to go!
 
 ## Workflow
 
