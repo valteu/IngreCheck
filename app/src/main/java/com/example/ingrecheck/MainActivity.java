@@ -29,9 +29,11 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
     private TextView mTextViewResult;
+    private TextView mTextViewWelcome;
     private TextView mSugarResult;
     private RequestQueue mQueue;
     public String INGREDIENTS;
+
     public String PRODUCT_ID;
     private OnProductIdChangedListener listener;
     private static final String[] sugar = {
@@ -63,19 +65,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Initialize TextViews
+        mTextViewWelcome = findViewById(R.id.text_view_welcome);  // Assuming your welcome message has this id
         mTextViewResult = findViewById(R.id.text_view_result);
         mSugarResult = findViewById(R.id.sugar);
         Button button_scan = findViewById(R.id.button_scan);
         mQueue = Volley.newRequestQueue(this);
 
-        button_scan.setOnClickListener(v->
-        {
+        // Initially set welcome message visible
+        mTextViewWelcome.setVisibility(View.VISIBLE);
+
+        button_scan.setOnClickListener(v -> {
             scanCode();
         });
         setOnProductIdChangedListener(new OnProductIdChangedListener() {
             @Override
             public void onProductIdChanged() {
                 jsonParse();
+                // Hide welcome message after scan
+                mTextViewWelcome.setVisibility(View.GONE);
             }
         });
 

@@ -33,4 +33,13 @@
         android:layout_marginBottom="29dp"
         android:text="Scan" />
 
-  </RelativeLayout>
+    <TextView
+        android:id="@+id/text_view_welcome"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:padding="10sp"
+        android:paddingTop="20sp"
+        android:text="Welcome to IngreScan!"
+        android:textSize="34sp" />
+
+</RelativeLayout>
