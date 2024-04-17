@@ -29,6 +29,8 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
     private TextView mTextViewResult;
+    private TextView mTextIngred;
+    private TextView mTextSugar;
     private TextView mTextViewWelcome;
     private TextView mSugarResult;
     private RequestQueue mQueue;
@@ -57,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
             "erythrit",
             "maltitol",
             "isomalt",
-            "sorbit"
+            "sorbit",
+            "sugar"
     };
 
 
@@ -68,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize TextViews
         mTextViewWelcome = findViewById(R.id.text_view_welcome);  // Assuming your welcome message has this id
+        mTextSugar = findViewById(R.id.BlacklistedHead);
+        mTextIngred = findViewById(R.id.IngredientsHead);
         mTextViewResult = findViewById(R.id.text_view_result);
         mSugarResult = findViewById(R.id.sugar);
         Button button_scan = findViewById(R.id.button_scan);
@@ -75,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Initially set welcome message visible
         mTextViewWelcome.setVisibility(View.VISIBLE);
+
 
         button_scan.setOnClickListener(v -> {
             scanCode();
@@ -99,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
         barLaucher.launch(options);
         mTextViewResult.setText("");
         mSugarResult.setText("");
+        mTextIngred.setVisibility(View.VISIBLE);
+        mTextSugar.setVisibility(View.VISIBLE);
     }
 
     ActivityResultLauncher<ScanOptions> barLaucher = registerForActivityResult(new ScanContract(), result->
