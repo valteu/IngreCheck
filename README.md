@@ -17,7 +17,7 @@ IngreCheck is an Android application designed to help users make informed food c
 - **Custom Blacklist (Upcoming)**: I am currently working on a feature that will allow users to create their own blacklist of ingredients.
 
 ## Installation
-- simply download the latest release apk on your android device and you are ready to go!
+- simply download the latest release apk on your android device, and you are ready to go!
 
 ## Workflow
 
@@ -28,7 +28,7 @@ IngreCheck is an Android application designed to help users make informed food c
 
 ## Releases
 
-Stay tuned for our upcoming releases which will include exciting new features and improvements!
+Stay tuned for our upcoming releases, which will include exciting new features and improvements!
 
 ## Feedback
 
